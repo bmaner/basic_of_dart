@@ -14,7 +14,55 @@ String sayAnnyeong(
 String saySogae(String name, int age, [String? country = 'cuba']) =>
     'Hello $name, you are $age years old from $country';
 
+// QQ operator
+// ?? --> question question or QQ operator
+// ??= --> QQ equals or QQ assignment operator
+
+// 개선전
+String capitalizeName(String? name) {
+  if (name != null) {
+    return name.toUpperCase();
+  }
+  return 'ANON';
+}
+
+// 첫번째 개선후
+String capitalizeName1(String? name) =>
+    name != null ? name.toUpperCase() : 'ANON';
+// 두번째 개선후
+String capitalizeName2(String? name) => name?.toUpperCase() ?? 'ANON';
+// ??를 중심으로 좌항이 null이면 우항을 return하고, 좌항이 null이 아니면 좌항을 return한다.
+
+//Typedef --> 좀 더 간단한 데이터의 alias를 만들 때 사용함
+typedef ListOfInts = List<int>;
+
+ListOfInts reverseListOfNumbers(ListOfInts list) {
+  var reversed = list.reversed;
+  return reversed.toList();
+}
+
+typedef UserInfo = Map<String, String>;
+
+String sayHey(UserInfo userinfo) {
+  return "Hey ${userinfo['name']}";
+}
+
 void main() {
+  print(sayHey({'name': 'seonghyeon'}));
+
+  //null aware operator
+  String? name101;
+  name101 ??= 'SH';
+  //name101이 null이면 우항을 좌항에 할당하여라
+  print(name101);
+  name101 = null;
+  print(name101);
+  name101 ??= 'another SH';
+  print(name101);
+
+  //QQ operator
+  print(capitalizeName('seonghyeoneee'));
+
   print(sayAnnyeong(name: "박성현", age: 31, country: "Republic of Korea"));
   var results = saySogae('SH', 31);
   print(results);
