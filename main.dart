@@ -10,9 +10,14 @@ String sayAnnyeong(
   return "여기여기 Hello $name, you are $age, and you come from $country";
 }
 
+//optional positional parameters
+String saySogae(String name, int age, [String? country = 'cuba']) =>
+    'Hello $name, you are $age years old from $country';
+
 void main() {
   print(sayAnnyeong(name: "박성현", age: 31, country: "Republic of Korea"));
-
+  var results = saySogae('SH', 31);
+  print(results);
   // 함수나 메소드 내부에 지역 변수를 선언할 때에는 var를 사용한다.(dart에서는 타입보다는 var로 변수를 정의하길 권장한다.)
   // class에서 변수나 property를 선언할 때에는 타입을 지정해줘야 한다.
 
