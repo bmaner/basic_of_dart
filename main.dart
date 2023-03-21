@@ -1,3 +1,53 @@
+//Mixin
+//Mixin은 생성자가 없는 클래스를 의미
+//class에 프로퍼티들을 추가할 때 사용함
+//Flutter나 Flutter 플러그인들을 사용할 때 많이 사용한다.
+//with을 통해 Mixin 내부의 프로퍼티와 메소드들을 긁어오는 역할로만 사용
+class Strong {
+  final double strengthLevel = 1500.99;
+}
+
+class QuickRunner {
+  void runQuick() {
+    print("Ruuuuuuuuuun!");
+  }
+}
+
+//Inheritance
+class Human {
+  final String name;
+  Human({required this.name});
+  sayHello() {
+    print("Hi my name is $name");
+  }
+}
+
+class Coach extends Human {
+  final Team team;
+
+  Coach({
+    required this.team,
+    required String name,
+  }) : super(name: name);
+
+  @override
+  void sayHello() {
+    super.sayHello();
+    //super는 상속한 부모 클래스의 프로퍼티에 접근하게 하거나, 메소드를 호출할 수 있게 해준다.
+    print("and I play for ${team}");
+  }
+}
+
+//Abstract Classes
+//추상화 클래스는 다른 클래스들이 직접 구현 해야하는 메소드들을 모아 놓은 일종의 청사진
+//쉽게 설명하자면 추상화 클래스는 이를 상속받는 모든 클래스가 가지고있어야 하는 메소드를 정의하는 역할이다.
+// abstract class Human {
+//   void walk();
+// }
+
+//enum
+enum Team { red, blue, family }
+
 //named parameter
 // String sayAnnyeong(
 //     {String name = "anonymous", int age = 99, String country = "idontknow"}) {
@@ -47,7 +97,79 @@ String sayHey(UserInfo userinfo) {
   return "Hey ${userinfo['name']}";
 }
 
+// class
+// class에서 property를 선언할때는 타입을 사용해서 정의한다.
+// function 내에서 variable를 사용할때에는 var를 사용한다.
+class Player with Strong, QuickRunner {
+  String name;
+  int xp;
+  Team team;
+  int age;
+
+  // Player(String name, int xp) {
+  //   this.name = name;
+  //   this.xp = xp;
+  // }
+  // 위의 코드는 중복으로 선언된 타입이 있어서 좋지 않다. 아래와 같이 적으면 훨씬 더 간단하고 좋은 코드를 작성할 수 있다.
+  Player(
+      {required this.name,
+      required this.xp,
+      required this.team,
+      required this.age});
+
+  Player.createBluePlayer({
+    required String name,
+    required int age,
+  })  : this.name = name,
+        this.age = age,
+        this.team = Team.red,
+        this.xp = 0;
+  Player.createRedPlayer(
+    String name,
+    int age,
+  )   : this.name = name,
+        this.age = age,
+        this.team = Team.blue,
+        this.xp = 0;
+  //위 코드에서 : 이 의미하는 바는 Player 클래스를 초기화하는 것이다.
+
+  void walk() {
+    print('I am walking');
+  }
+
+  void sayHello() {
+    print('Hi my name is $name');
+  }
+}
+
 void main() {
+  //Inheritance example call
+  var coach = Coach(
+    team: Team.red,
+    name: 'Seonghyeon',
+  );
+  coach.sayHello();
+
+  //class example call
+  var player1 = Player(name: 'SH', xp: 999999, team: Team.red, age: 31);
+  player1.sayHello();
+  var player2 = Player(name: 'UNA', xp: 9999999999, team: Team.blue, age: 29);
+  player2.sayHello();
+  var player3 = Player.createBluePlayer(name: 'Joan', age: 33);
+  player3.sayHello();
+  var player4 = Player.createRedPlayer('Dave', 38);
+  player4.sayHello();
+  //casecade operator example
+
+  var YoungAe =
+      Player(name: 'YoungAe', xp: 99999999999999, team: Team.blue, age: 58)
+        ..name = 'myMother'
+        ..xp = 100000000000000000
+        ..team = Team.family
+        ..age = 30;
+  YoungAe.sayHello();
+
+  //typedef example call
   print(sayHey({'name': 'seonghyeon'}));
 
   //null aware operator
@@ -170,6 +292,7 @@ void main() {
     'xp': 999.999,
     'superpower': true,
   };
+
   //위의 Map은 key : String, value : Object로 되어있는데,
   //Dart에서는 모든 것이 Object로 되어있어서 typescript의 any를 표현하고 싶다면 Object를 사용하면 된다.
 
